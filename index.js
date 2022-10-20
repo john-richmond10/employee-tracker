@@ -1,5 +1,6 @@
 const inquirer = require('inquirer');
-const db = require('./db')
+const db = require('./db/database');
+const mysql = require('mysql2');
 require('console.table');
 
 function frontPrompts() {
@@ -262,3 +263,8 @@ async function updateEmployee() {
             )
         })
 };
+
+connection.connect(function() {
+    console.log('Connected Successfully to the Database!');
+    frontPrompts();
+})
