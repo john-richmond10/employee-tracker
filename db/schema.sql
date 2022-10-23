@@ -1,4 +1,4 @@
-DROP DATABASE IF EXITS employees;
+DROP DATABASE IF EXISTS employees;
 CREATE DATABASE employees;
 
 USE employees;
@@ -17,11 +17,11 @@ CREATE TABLE role (
 );
 
 CREATE TABLE employee (
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
-    role_id INT NOT NULL,
-    manger_id INTEGER,
-    CONSTARINT fk_role FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE SET NULL,
-    CONSTRAINT fk_manager FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE SET NULL
+    role_id INTEGER,
+    manager_id INTEGER,
+    CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE SET NULL,
+    CONSTRAINT fk_employee FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE SET NULL
 );

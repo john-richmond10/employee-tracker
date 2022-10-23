@@ -1,7 +1,12 @@
 const inquirer = require('inquirer');
-const db = require('./db/database');
+const connection = require('./db/connection');
 const mysql = require('mysql2');
 require('console.table');
+
+connection.connect(function (err) {
+    if (err) throw err;
+    frontPrompts();
+});
 
 function frontPrompts() {
     inquirer
@@ -34,28 +39,27 @@ function frontPrompts() {
                     }
                 ]
             }
-        ]).then(res => {
-            let choice = res.choice;
+        ]).then(choice => {
             switch(choice) {
-                case 'All_Departments':
+                case 'All Departments':
                     allDepartments();
                     break;
-                case 'All_Roles':
+                case 'All Roles':
                     allRoles();
                     break;
-                case 'All_Employees':
+                case 'All Employees':
                     allEmployees();
                     break;
-                case 'Add_Department':
+                case 'Add Department':
                     addDepartment();
                     break;
-                case 'Add_Role':
+                case 'Add Role':
                     addRole();
                     break;
-                case 'Add_Employee':
+                case 'Add Employee':
                     addEmployee();
                     break;
-                case 'Update_Employee':
+                case 'Update Employee':
                     updateEmployee();
             }
         })
@@ -64,14 +68,11 @@ function frontPrompts() {
 function allDepartments() {
     const query = connection.query(
         'SELECT * FROM department',
-        (err, res) => {
-            if (err) {
-                console.log(err);
-            } else {
+        function (err, res) {
+            if (err) throw err;
             let values = [res]
             console.table(values[0]);
             frontPrompts();
-            };
         }
     )
 };
@@ -264,7 +265,4 @@ async function updateEmployee() {
         })
 };
 
-connection.connect(function() {
-    console.log('Connected Successfully to the Database!');
-    frontPrompts();
-})
+
